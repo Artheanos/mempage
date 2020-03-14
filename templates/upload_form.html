@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block head_section %}
+    <style>
+        .custom-file {
+            cursor: none;
+            transform: scale(1);
+            transition: .2s;
+        }
+
+        .custom-file:hover {
+            cursor: grab;
+            transform: scale(0.95);
+        }
+
+        .custom-file:active {
+            transform: scale(0.85);
+            transition: .05s;
+        }
+    </style>
+{% endblock %}
+
+{% block navbar %}
+    {% if session.username %}
+        <a class="py-2 d-md-inline-block" href="/logout">Logout</a>
+        <a class="py-2 d-md-inline-block" href="#">{{ session.username }}</a>
+    {% else %}
+        <a class="py-2" href="login_form">Login</a>
+        <a class="py-2 d-md-inline-block" href="register_form">Register</a>
+    {% endif %}
+    <a class="py-2 d-md-inline-block" href="/"><img style="width: 20px; object-position: 0 -2px"
+                                                    src="/static/Untitled.ico">MEMPAGE</a>
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="max-width: 400px">
+        <form class="mt-4" action="upload" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-row">
+                <div class="col mb-4">
+                    {{ formset.header }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col mb-4">
+                    <div class="custom-file">
+                        {{ formset.file }}
+                        <label class="custom-file-label" for="file_input">Choose File</label>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" type="submit" value="Upload Image" name="submit">Upload Image</button>
+
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+            integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+            integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+            integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+            crossorigin="anonymous"></script>
+    <script>
+        $('.custom-file-input').on('change', function () {
+            let fileName = this.files[0].name;
+            $(this).next('.custom-file-label').html(fileName);
+        });
+
+        $('.form-control').on('keyup', function () {
+            $(this).val($(this).val().replace(/[^\x00-\x7F]/g, ""));
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'user_base.html' %}
+
+{% block head_section %}
+    <title>Register</title>
+{% endblock %}
+
+{% block content %}
+    <nav class="site-header sticky-top py-1" style="border-radius: 0 0 10px 10px;">
+        <div class="container d-flex flex flex-md-row justify-content-between font-weight-bold">
+            <a class="py-2 d-md-inline-block" href="/login_form">Login</a>
+            <a class="py-2 d-md-inline-block" href="/"><img style="width: 20px; object-position: 0 -2px"
+                                                            src="/static/Untitled.ico">MEMPAGE</a>
+            {% if session.username %}
+                <a class="py-2 d-md-inline-block" href="#">{{ session.username }}</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container" style="max-width: 400px">
+        <form class="mt-4" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-row">
+                    <div class="col mb-4">
+                        {{ field }}
+                    </div>
+                </div>
+            {% endfor %}
+            {{ form.errors }}
+
+            <button class="btn btn-primary" type="submit" value="Register" name="submit">Register</button>
+        </form>
+    </div>
+    <script>
+        $('.col *').addClass('form-control')
+    </script>
+{% endblock %}

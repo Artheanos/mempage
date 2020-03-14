@@ -1,0 +1,32 @@
+{% extends 'user_base.html' %}
+{% block content %}
+
+    <nav class="site-header sticky-top py-1" style="border-radius: 0 0 10px 10px;">
+        <div class="container d-flex flex flex-md-row font-weight-bold">
+            <a class="ml-auto py-2 d-md-inline-block" href="/"><img style="width: 20px; object-position: 0 -2px"
+                                                            src="/static/Untitled.ico">MEMPAGE</a>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width: 400px">
+        <form class="mt-4" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if previous_page %}
+                <input type="hidden" value="{{ previous_page }}" name="previous_page"/>
+            {% endif %}
+
+            {% for field in form %}
+                <div class="form-row">
+                    <div class="col mb-4">
+                        {{ field }}
+                    </div>
+                </div>
+            {% endfor %}
+
+            {{ form.errors }}
+
+            <button class="btn btn-primary" type="submit" value="Upload Image" name="submit">Login</button>
+            <a style="float: right" href="/register_form">Register</a>
+        </form>
+    </div>
+{% endblock %}

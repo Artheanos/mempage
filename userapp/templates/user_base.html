@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+    <link rel="icon" href="/static/Untitled.ico">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <style>
+        .site-header {
+            background-color: rgba(0, 0, 0, .40);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            backdrop-filter: saturate(180%) blur(20px);
+        }
+
+        .site-header a {
+            color: #fff;
+            transition: ease-in-out color .15s;
+        }
+
+        .site-header a:hover {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .flex-equal > * {
+            -ms-flex: 1;
+            -webkit-box-flex: 1;
+            flex: 1;
+        }
+
+        @media (min-width: 768px) {
+            .flex-md-equal > * {
+                -ms-flex: 1;
+                -webkit-box-flex: 1;
+                flex: 1;
+            }
+        }
+    </style>
+    {% block head_section %}
+        <title>Mempage User</title>
+    {% endblock %}
+</head>
+<body>
+
+{% if messages %}
+    <div class="msg-container">
+        {% for i in messages %}
+            <div class="msg">{{ i }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% block content %}
+    You are not supposed to see this
+{% endblock %}
+
+{% include 'elements/footer.html' %}
+</body>
+<script>
+    let msg_container = $('.msg-container');
+
+    function msg_hide() {
+        msg_container.addClass('msg-hide')
+    }
+
+    msg_container.click(function () {
+        msg_hide();
+    });
+
+    setTimeout(function () {
+        msg_hide();
+    }, 5000)
+</script>
+</html>

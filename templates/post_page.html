@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block head_section %}
+    <style>
+        .comment-create {
+
+        }
+
+        .comment-header {
+            font-size: small;
+        }
+
+        .comment-delete {
+            cursor: pointer;
+            float: left;
+            width: 20px;
+            height: 20px;
+            text-align: center
+        }
+
+        .comment {
+            border: solid 2px white;
+            border-radius: 5px;
+        }
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    <div id="wall" class="" style="max-width: 600px; margin: auto">
+
+        {% include 'elements/post.html' %}
+
+        <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+            <div class="bg-dark mr-md-3 p-1 p-md-4 text-left text-white overflow-hidden">
+
+                {% for comment in post.comment_set.all %}
+                    <div class="comment p-2 mb-3">
+                        {% if comment.user.username == session.username %}
+                            <form method="post">
+                                {% csrf_token %}
+                                <p class="btn-danger comment-delete"
+                                   onclick="console.log(this.parentElement.submit());">X</p>
+                                <input type="hidden" value="{{ comment.id }}" name="comment-id"/>
+                            </form>
+                        {% endif %}
+                        <p class="comment-header" style="text-align: right;">
+                            Posted by {{ comment.user.username }} on {{ comment.date|date:"Y-m-d \a\t G:i" }}
+                        </p>
+                        <p style="white-space: pre-wrap;">{{ comment.content }}</p>
+                    </div>
+                {% endfor %}
+
+                <div class="comment comment-create p-2 my-1">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <p class="comment-header">Enter your comment</p>
+                        {% if session.username %}
+                            <textarea class="form-control mb-3" name="content" style="width: 100%"></textarea>
+                            <button class="btn" type="submit">Comment</button>
+                        {% else %}
+                            Log in to post a comment<br/>
+                            <button class="btn" type="button"
+                                    onclick="window.location='/login_form?post={{ post.id }}'">Log
+                                in
+                            </button>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
