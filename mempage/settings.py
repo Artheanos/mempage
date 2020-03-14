@@ -11,7 +11,7 @@ SECRET_KEY = 'eshbnib(^k%bv#$kmw#*^_rftnwjwt+fq94%!#49r_o&n#ybwm'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'mempage.serverless.social']
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -85,12 +85,11 @@ WSGI_APPLICATION = 'mempage.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mempage',
-        'USER': 'bigboy',
-        'PASSWORD': 'dupa',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
 
         'HOST': '127.0.0.1',  # Or an IP Address that your DB is hosted on
-        # 'PORT': '3306',
     }
 }
 
@@ -133,3 +132,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 IMAGES_DIR = os.path.join(BASE_DIR, 'static/images')
+
