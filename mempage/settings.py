@@ -85,9 +85,9 @@ WSGI_APPLICATION = 'mempage.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
+        'NAME': 'mempage',
+        'USER': 'bigboy',
+        'PASSWORD': 'dupa',
 
         'HOST': '127.0.0.1',  # Or an IP Address that your DB is hosted on
     }
