@@ -1,0 +1,17 @@
+{% extends 'user_base.html' %}
+{% block content %}
+
+    <nav class="site-header sticky-top py-1" style="border-radius: 0 0 10px 10px;">
+        <div class="container d-flex flex flex-md-row font-weight-bold">
+            <a class="ml-auto py-2 d-md-inline-block" href="/"><img style="width: 20px; object-position: 0 -2px"
+                                                                    src="/static/Untitled.ico">MEMPAGE</a>
+        </div>
+    </nav>
+
+    <div class="container main-container" style="max-width: 400px">
+        <h1>
+            Email with your new password has been sent
+        </h1>
+        <a class="btn btn-primary" href="/login_form">Login</a>
+    </div>
+{% endblock %}

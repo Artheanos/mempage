@@ -1,17 +1,26 @@
 import os
+from PIL import Image, UnidentifiedImageError
 from random import choice
 from string import ascii_lowercase, ascii_uppercase
 
-from django.db.models import Model
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
-from .models import Post
 from mempage.settings import IMAGES_DIR
+from .models import Post
 
 
 def random_string(length: int):
     pool = ascii_lowercase + ascii_uppercase + "-_~!$&'()+,;=@"
     return ''.join([choice(pool) for _ in range(length)])
+
+
+def is_image(file_path):
+    try:
+        t = Image.open(file_path)
+        t.verify()
+    except UnidentifiedImageError:
+        return False
+    return True
 
 
 def name_save_file(file: InMemoryUploadedFile) -> str:

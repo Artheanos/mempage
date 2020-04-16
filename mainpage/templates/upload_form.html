@@ -23,7 +23,7 @@
 {% block navbar %}
     {% if session.username %}
         <a class="py-2 d-md-inline-block" href="/logout">Logout</a>
-        <a class="py-2 d-md-inline-block" href="#">{{ session.username }}</a>
+        <a class="py-2 d-md-inline-block" href="/profile/{{ session.id }}">{{ session.username }}</a>
     {% else %}
         <a class="py-2" href="login_form">Login</a>
         <a class="py-2 d-md-inline-block" href="register_form">Register</a>
@@ -33,7 +33,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container" style="max-width: 400px">
+    <div class="container main-container" style="max-width: 400px">
         <form class="mt-4" action="upload" method="post" enctype="multipart/form-data">
             {% csrf_token %}
 

@@ -4,12 +4,12 @@
     <nav class="site-header sticky-top py-1" style="border-radius: 0 0 10px 10px;">
         <div class="container d-flex flex flex-md-row font-weight-bold">
             <a class="ml-auto py-2 d-md-inline-block" href="/"><img style="width: 20px; object-position: 0 -2px"
-                                                            src="/static/Untitled.ico">MEMPAGE</a>
+                                                                    src="/static/Untitled.ico">MEMPAGE</a>
         </div>
     </nav>
 
-    <div class="container" style="max-width: 400px">
-        <form class="mt-4" method="post" enctype="multipart/form-data">
+    <div class="container pt-5" style="max-width: 400px; min-height: 700px">
+        <form class="mt-5" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% if previous_page %}
                 <input type="hidden" value="{{ previous_page }}" name="previous_page"/>
@@ -25,8 +25,11 @@
 
             {{ form.errors }}
 
-            <button class="btn btn-primary" type="submit" value="Upload Image" name="submit">Login</button>
-            <a style="float: right" href="/register_form">Register</a>
+            <div class="d-flex align-items-center justify-content-left">
+                <button class="btn btn-primary" type="submit" value="Upload Image" name="submit">Login</button>
+                <a class="m-3" href="/register_form">Register</a>
+                <a class="ml-auto btn btn-outline-danger" href="/password_recovery">Forgot Password</a>
+            </div>
         </form>
     </div>
 {% endblock %}

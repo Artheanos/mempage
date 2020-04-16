@@ -1,16 +1,16 @@
+import datetime
+import os
+
+from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect, HttpResponse, Http404
-from django.shortcuts import render, redirect
-from django.contrib import messages
+from django.shortcuts import render
 
+from mempage.settings import IMAGES_DIR
 from userapp.models import User
 from .forms import UploadFileForm
 from .models import Post, Comment
-
-from .utils import name_save_file, remove_post
-from userapp.utils import get_user
-
-import datetime
+from .utils import is_image, name_save_file, remove_post
 
 
 def upload_form(request):
@@ -18,7 +18,18 @@ def upload_form(request):
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             file_name = name_save_file(request.FILES['file'])
-            new_post = Post.objects.new_post(request.POST['header'], file_name, get_user(request))
+            file_path = os.path.join(IMAGES_DIR, file_name)
+
+            if not is_image(file_path):
+                os.remove(file_path)
+
+                messages.add_message(request, messages.INFO, 'File is not an image')
+                formset = UploadFileForm(request.POST)
+                return render(
+                    request, 'upload_form.html', {'formset': formset, 'session': request.session}
+                )
+
+            new_post = Post.objects.new_post(request.POST['header'], file_name, User.get_user(request))
             new_post.save()
 
             messages.add_message(request, messages.INFO, 'You have successfully uploaded an image')
@@ -29,11 +40,7 @@ def upload_form(request):
     else:
         formset = UploadFileForm(request.POST)
         return render(
-            request, 'upload_form.html', {
-                'formset': formset,
-                'session': request.session,
-                'buttons': ['profile main', 'logout profile main']
-            }
+            request, 'upload_form.html', {'formset': formset, 'session': request.session}
         )
 
 
@@ -73,7 +80,7 @@ def post_page(request, post_number):
             return HttpResponseRedirect(request.path_info)
         else:
             comment = Comment.objects.create(
-                user=get_user(request),
+                user=User.get_user(request),
                 post=post,
                 date=datetime.datetime.now(),
                 content=request.POST['content']
@@ -91,7 +98,7 @@ def post_edit_page(request, post_number):
         raise Http404(f"Post where id={post_number} does not exist")
 
     if request.method == 'POST':
-        if post.user != get_user(request):
+        if post.user != User.get_user(request):
             raise Exception()
 
         if request.POST.get('action') == 'delete':
@@ -106,6 +113,6 @@ def post_edit_page(request, post_number):
 
 
 def my_posts_page(request):
-    posts = Post.objects.filter(user=get_user(request))
+    posts = Post.objects.filter(user=User.get_user(request))
 
     return render(request, 'my_posts_page.html', {'posts': posts, 'session': request.session})

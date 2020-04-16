@@ -28,8 +28,10 @@
                     </div>
                 {% endfor %}
                 {% if session.username == user.username %}
-                    <button class="btn btn-outline-light" onclick="window.location = '/my_posts'">Edit your posts</button>
-                    <button class="btn btn-outline-light" onclick="window.location = '/profile_edit'">Edit your profile</button>
+                    <div class="mt-5">
+                        <a class="btn btn-outline-light mr-2" href='/my_posts'>Edit your posts</a>
+                        <a class="btn btn-outline-light" href='/profile_edit'>Edit your profile</a>
+                    </div>
                 {% endif %}
             </div>
         </div>

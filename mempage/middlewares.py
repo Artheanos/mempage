@@ -4,7 +4,7 @@ import re
 
 from django.http import HttpResponseRedirect
 
-no_user_whitelist = r'/post/\d*|/|/login_form|/register_form'
+no_user_whitelist = r'/post/\d*|/|/login_form|/register_form|/password_recovery'
 
 
 class AuthRequiredMiddleware(MiddlewareMixin):

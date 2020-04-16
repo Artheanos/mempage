@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 from mainpage.views import main_page, upload_form, post_page, post_edit_page, my_posts_page
-from userapp.views import login_form, register_form, logout, profile_edit_form, profile_page
+from userapp.views import login_form, register_form, logout, profile_edit_form, profile_page, password_recovery_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,7 +30,10 @@ urlpatterns = [
     path('login_form', login_form),
     path('register_form', register_form),
     path('profile_edit', profile_edit_form),
+    path('profile_edit/password_change', profile_edit_form),
     path('my_posts', my_posts_page),
+
+    path('password_recovery', password_recovery_page),
 
     path('profile/<int:profile_id>', profile_page),
 ]
