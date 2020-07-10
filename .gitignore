@@ -1,6 +1,5 @@
 debug.log
 __pycache__/
-mempage/settings.py
 userapp/emails/token.pickle
 .gitignore
 .idea/
