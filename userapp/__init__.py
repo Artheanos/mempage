@@ -1,4 +1,4 @@
 from .emails.myemail import GmailService
 
-print('initing')
+print('initiating')
 gmail_service = GmailService()

@@ -10,7 +10,7 @@ def match(password: str, hashed_password: str) -> bool:
 
 
 def session_logged_in(request):
-    return bool(request.session['username']) and bool(request.session['id'])
+    return bool(request.session.get('username')) and bool(request.session.get('id'))
 
 
 def session_login(request, user):

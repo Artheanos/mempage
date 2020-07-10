@@ -13,7 +13,7 @@ class GmailService:
     def __init__(self):
         self.SCOPES = ['https://www.googleapis.com/auth/gmail.readonly', 'https://www.googleapis.com/auth/gmail.send']
         current_dir = os.path.abspath(os.path.dirname(__file__))
-        self.credentials_path = os.path.join(current_dir, 'client_secret.json')
+        self.credentials_path = os.path.join(current_dir, 'credentials.json')
         self.token_path = os.path.join(current_dir, 'token.pickle')
         self.service = None
 
