@@ -1,6 +1,0 @@
-debug.log
-__pycache__/
-userapp/emails/token.pickle
-.gitignore
-.idea/
-venv/
