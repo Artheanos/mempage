@@ -17,7 +17,9 @@
                 <a href="/post_edit/{{ post.id }}">Edit</a>
             {% endif %}
         </div>
-        <img class="card-img" src="/static/images/{{ post.image }}"/>
+        <a href="post/{{ post.id }}">
+            <img class="card-img" src="/static/images/{{ post.image }}"/>
+        </a>
 
         {% with post.comment_set.count as comment_count %}
             {% if comment_count %}
