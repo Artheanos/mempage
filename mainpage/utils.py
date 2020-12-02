@@ -41,8 +41,11 @@ def name_save_file(file: InMemoryUploadedFile) -> str:
 
 
 def remove_post(post: Post):
-    os.rename(
-        os.path.join(IMAGES_DIR, post.image),
-        os.path.join(IMAGES_DIR, 'removed', post.image)
-    )
+    try:
+        os.rename(
+            os.path.join(IMAGES_DIR, post.image),
+            os.path.join(IMAGES_DIR, 'removed', post.image)
+        )
+    except FileNotFoundError:
+        pass
     post.delete()
