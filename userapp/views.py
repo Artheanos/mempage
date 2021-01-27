@@ -106,8 +106,11 @@ def password_recovery_page(request):
     if request.method == 'POST':
         target_email = request.POST.get('target_email')
         if target_email:
-            target_user = User.objects.get(email=target_email)
-            target_user.forgot_password()
+            try:
+                target_user = User.objects.get(email=target_email)
+                target_user.forgot_password()
+            except User.DoesNotExist:
+                pass
 
         return render(request, 'password_recovery/second_stage.html')
 
