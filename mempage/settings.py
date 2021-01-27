@@ -1,4 +1,5 @@
 import os
+import django_heroku
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -86,10 +87,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'mempage',
-        'USER': 'bigboy',
-        'PASSWORD': 'dupa',
+        'USER': 'kinder',
+        'PASSWORD': 'kinder123',
 
-        'HOST': '192.168.0.200',
+        'HOST': '192.168.1.100',
     }
 }
 
@@ -132,4 +133,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 IMAGES_DIR = os.path.join(BASE_DIR, 'static/images')
-
+django_heroku.settings(locals())
