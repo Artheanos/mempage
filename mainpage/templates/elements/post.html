@@ -18,7 +18,9 @@
             {% endif %}
         </div>
         <a href="post/{{ post.id }}">
-            <img class="card-img" src="/static/images/{{ post.image }}"/>
+            <img class="card-img"
+                 src="https://mempagebucket.s3.eu-central-1.amazonaws.com/media/{{ post.image|urlencode }}"
+                 alt="{{ post.header }}"/>
         </a>
 
         {% with post.comment_set.count as comment_count %}

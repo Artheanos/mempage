@@ -12,7 +12,7 @@ def login_form(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            user = User.objects.get(username=form.cleaned_data['username'])
+            user = User.objects.get(username__iexact=form.cleaned_data['username'])
             session_login(request, user)
             previous_page = request.POST.get('previous_page')
             print(previous_page)

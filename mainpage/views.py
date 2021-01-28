@@ -1,5 +1,6 @@
 import datetime
 import os
+import boto3
 
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
@@ -11,6 +12,9 @@ from userapp.models import User
 from .forms import UploadFileForm
 from .models import Post, Comment
 from .utils import is_image, name_save_file, remove_post
+
+S3 = boto3.client('s3')
+S3_BUCKET = 'mempagebucket'
 
 
 def upload_form(request):
@@ -28,6 +32,8 @@ def upload_form(request):
                 return render(
                     request, 'upload_form.html', {'formset': formset, 'session': request.session}
                 )
+
+            S3.upload_file(file_path, S3_BUCKET, 'media/' + file_name)
 
             new_post = Post.objects.new_post(request.POST['header'], file_name, User.get_user(request))
             new_post.save()
