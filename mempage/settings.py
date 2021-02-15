@@ -80,19 +80,38 @@ LOGGING = {
 
 WSGI_APPLICATION = 'mempage.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'HOST': '89.68.129.242',
+        'PORT': '3999',
         'NAME': 'mempage',
         'USER': 'kinder',
-        'PASSWORD': 'kinder123',
-
-        'HOST': '192.168.1.100',
+        'PASSWORD': 'kinder123'
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'HOST': '192.168.1.100',
+#         'PORT': '3999',
+#         'NAME': 'mempage',
+#         'USER': 'kinder',
+#         'PASSWORD': 'kinder123'
+#     }
+# }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         'NAME': 'mempage',
+#         'USER': 'janmongo',
+#         'PASSWORD': 'K55^U2Hc1*Dg',
+#         'CLIENT': {
+#             'host': 'mongodb+srv://janmongo:K55^U2Hc1*Dg@cluster0.kg8ub.mongodb.net/mempage?retryWrites=true&w=majority',
+#         }
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

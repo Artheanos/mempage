@@ -2,24 +2,37 @@
 
 {% block content %}
     <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
-        {#        <div class="col-md-5 p-lg-5 mx-auto my-5">#}
         <h1 class="display-4 font-weight-normal">MemPage</h1>
         <p class="lead font-weight-normal">Ale super!</p>
-        {#        </div>#}
         <div class="product-device box-shadow d-none d-md-block"></div>
         <div class="product-device product-device-2 box-shadow d-none d-md-block"></div>
     </div>
 
     <div id="wall" class="" style="max-width: 600px; margin: auto">
-        {% if not posts %}
+        {% if not object_list %}
             <h2 class="display-5 text-center">
                 There are no posts :(
             </h2>
         {% else %}
-            {% for post in posts %}
+            {% for post in object_list %}
                 {% include 'elements/post.html' %}
             {% endfor %}
 
         {% endif %}
+
+        {% if page_obj.has_next %}
+            <div style="font-size: 2rem" class="py-5">
+                <ul class="pagination text-center w-100">
+                    <li class="page-item w-100 px-5">
+                        <a class="page-link w-100 text-dark" style="background: #ddd"
+                           href="?page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
+
     </div>
+
+    {% include 'elements/pagination.html' %}
+
 {% endblock %}

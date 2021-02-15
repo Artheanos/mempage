@@ -27,8 +27,8 @@
 
             <div class="d-flex align-items-center justify-content-left">
                 <button class="btn btn-primary" type="submit" value="Upload Image" name="submit">Login</button>
-                <a class="m-3" href="/register_form">Register</a>
-                <a class="ml-auto btn btn-outline-danger" href="/password_recovery">Forgot Password</a>
+                <a class="m-3" href="{% url 'register' %}">Register</a>
+                <a class="ml-auto btn btn-outline-danger" href="{% url 'password-recovery' %}">Forgot Password</a>
             </div>
         </form>
     </div>

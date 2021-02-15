@@ -15,25 +15,29 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.views.generic import UpdateView
 
-from mainpage.views import main_page, upload_form, post_page, post_edit_page, my_posts_page
+from mainpage.views import upload_form, post_page, MainView, MyPostsView, MyPostEditView, \
+    MyPostDeleteView
 from userapp.views import login_form, register_form, logout, profile_edit_form, profile_page, password_recovery_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', main_page),
-    path('post/<int:post_number>', post_page),
-    path('post_edit/<int:post_number>', post_edit_page),
-    path('upload', upload_form),
-    path('logout', logout),
 
-    path('login_form', login_form),
-    path('register_form', register_form),
-    path('profile_edit', profile_edit_form),
-    path('profile_edit/password_change', profile_edit_form),
-    path('my_posts', my_posts_page),
+    path('', MainView.as_view(), name='main-page'),
+    path('my_posts', MyPostsView.as_view(), name='my-posts'),
+    path('post/<int:pk>', post_page, name='post-page'),
+    path('post/<int:pk>/edit', MyPostEditView.as_view(), name='post-edit'),
+    path('post/<int:pk>/delete', MyPostDeleteView.as_view(), name='post-delete'),
+    path('upload', upload_form, name='upload'),
+    path('logout', logout, name='logout'),
 
-    path('password_recovery', password_recovery_page),
+    path('login_form', login_form, name='login'),
+    path('register_form', register_form, name='register'),
+    path('profile_edit', profile_edit_form, name='profile-edit'),
+    path('profile_edit/password_change', profile_edit_form, name='password-change'),
 
-    path('profile/<int:profile_id>', profile_page),
+    path('password_recovery', password_recovery_page, name='password-recovery'),
+
+    path('profile/<int:pk>', profile_page, name='profile-page'),
 ]

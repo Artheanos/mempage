@@ -22,19 +22,21 @@
 
 {% block navbar %}
     {% if session.username %}
-        <a class="py-2 d-md-inline-block" href="/logout">Logout</a>
-        <a class="py-2 d-md-inline-block" href="/profile/{{ session.id }}">{{ session.username }}</a>
+        <a class="py-2 d-md-inline-block" href={% url 'logout' %}>Logout</a>
+        <a class="py-2 d-md-inline-block" href="{% url 'profile-page' session.id %}">{{ session.username }}</a>
     {% else %}
-        <a class="py-2" href="login_form">Login</a>
-        <a class="py-2 d-md-inline-block" href="register_form">Register</a>
+        <a class="py-2" href="{% url 'login' %}">Login</a>
+        <a class="py-2 d-md-inline-block" href="{% url 'register' %}">Register</a>
     {% endif %}
-    <a class="py-2 d-md-inline-block" href="/"><img style="width: 20px; object-position: 0 -2px"
-                                                    src="/static/icon.ico">MEMPAGE</a>
+    <a class="py-2 d-md-inline-block" href={% url 'main-page' %}>
+        <img style="width: 20px; object-position: 0 -2px" src="/static/icon.ico" alt="MEMPAGE">
+        MEMPAGE
+    </a>
 {% endblock %}
 
 {% block content %}
     <div class="container main-container" style="max-width: 400px">
-        <form class="mt-4" action="upload" method="post" enctype="multipart/form-data">
+        <form class="mt-4" action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
             <div class="form-row">

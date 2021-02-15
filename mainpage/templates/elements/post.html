@@ -2,24 +2,30 @@
     <div class="bg-dark mr-md-3 p-3 p-md-5 text-left text-white overflow-hidden">
         <div class="pb-3">
             {% if post.user %}
-                <p class="lead float-right" style="cursor: pointer"
-                   onclick="window.location = '/profile/{{ post.user.id }}'">
-                    {{ post.user.username }}
-                </p>
+                <a href="{% url 'profile-page' post.user.id %}" class="deco-none">
+                    <p class="lead float-right">
+                        {{ post.user.username }}
+                    </p>
+                </a>
             {% endif %}
-            <h2 class="display-5 d-table" style="cursor:pointer;"
-                onclick="window.location = 'post/{{ post.id }}'">
-                {{ post.header }}
-            </h2>
+            <a href="{% url 'post-page' post.pk %}" class="deco-none">
+                <h2 class="display-5 d-table">
+                    {{ post.header }}
+                </h2>
+            </a>
             <p class="float-right">{{ post.date|date:"Y-m-d H:i" }}</p>
 
-            {% if editable %}
-                <a href="/post_edit/{{ post.id }}">Edit</a>
+            {% if post.user.id == session.id %}
+                <a href="{% url 'post-edit' post.pk %}">
+                    <button class="btn btn-outline-warning">
+                        Edit
+                    </button>
+                </a>
             {% endif %}
         </div>
-        <a href="post/{{ post.id }}">
+        <a href="{% url 'post-page' post.pk %}">
             <img class="card-img"
-                 src="https://mempagebucket.s3.eu-central-1.amazonaws.com/media/{{ post.image|urlencode }}"
+                 src="{{ post.image_url }}"
                  alt="{{ post.header }}"/>
         </a>
 

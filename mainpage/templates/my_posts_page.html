@@ -11,17 +11,17 @@
     </div>
 
     <div id="wall" class="" style="max-width: 600px; margin: auto">
-        {% if not posts %}
+        {% if not object_list %}
             <h2 class="display-5 text-center">
                 There are no posts :(
             </h2>
         {% else %}
-            {% for post in posts %}
-                {% with editable=1 %}
-                    {% include 'elements/post.html' %}
-                {% endwith %}
+            {% for post in object_list %}
+                {% include 'elements/post.html' %}
             {% endfor %}
 
         {% endif %}
     </div>
+
+    {% include 'elements/pagination.html' %}
 {% endblock %}
