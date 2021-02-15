@@ -54,16 +54,21 @@
                 <div class="comment comment-create p-2 my-1">
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <p class="comment-header">Enter your comment</p>
                         {% if session.username %}
-                            <textarea class="form-control mb-3" name="content" style="width: 100%"></textarea>
-                            <button class="btn" type="submit">Comment</button>
+                            <label class="comment-header" for="comment-text">
+                                Enter your comment
+                            </label>
+                            <textarea id="comment-text" class="form-control mb-3" name="content"
+                                      style="width: 100%"></textarea>
+                            <button class="btn btn-primary" type="submit">Comment</button>
                         {% else %}
-                            Log in to post a comment<br/>
-                            <button class="btn" type="button"
-                                    onclick="window.location='/login_form?post={{ post.id }}'">Log
-                                in
-                            </button>
+                            Log in to post a comment
+                            <br/>
+                            <a href="{% url 'login' %}?post={{ post.pk }}">
+                                <button class="btn btn-primary my-2" type="button">
+                                    Log in
+                                </button>
+                            </a>
                         {% endif %}
                     </form>
                 </div>

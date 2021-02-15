@@ -2,14 +2,16 @@
 
 {% block navbar %}
     {% if session.username %}
-        <a class="py-2" href="/upload">Upload</a>
-        <a class="py-2 d-md-inline-block" href="/logout">Logout</a>
+        <a class="py-2" href={% url 'upload' %}>Upload</a>
+        <a class="py-2 d-md-inline-block" href="{% url 'logout' %}">Logout</a>
     {% else %}
-        <a class="py-2" href="/login_form">Login</a>
-        <a class="py-2 d-md-inline-block" href="/register_form">Register</a>
+        <a class="py-2" href={% url 'login' %}>Login</a>
+        <a class="py-2 d-md-inline-block" href="{% url 'register' %}">Register</a>
     {% endif %}
-    <a class="py-2 d-md-inline-block" href="/"><img style="width: 20px; object-position: 0 -2px"
-                                                    src="/static/icon.ico">MEMPAGE</a>
+    <a class="py-2 d-md-inline-block" href="/">
+        <img style="width: 20px; object-position: 0 -2px" src="/static/icon.ico" alt="MEMPAGE">
+        MEMPAGE
+    </a>
 {% endblock %}
 
 {% block content %}
@@ -19,18 +21,18 @@
                 <div class="jumbotron bg-dark px-0 pt-5 mb-0">
                     <h1>User <a class="font-weight-bold">{{ user.username }}</a></h1>
                 </div>
-                {% for left, right in stats.items %}
+                {% for key, value in stats.items %}
                     <div class="media py-3">
                         <p class="lead">
-                            {{ left }} - {{ right }}
+                            {{ key }} - {{ value }}
                         </p>
                         <hr/>
                     </div>
                 {% endfor %}
                 {% if session.username == user.username %}
                     <div class="mt-5">
-                        <a class="btn btn-outline-light mr-2" href='/my_posts'>Edit your posts</a>
-                        <a class="btn btn-outline-light" href='/profile_edit'>Edit your profile</a>
+                        <a class="btn btn-outline-light mr-2" href="{% url 'my-posts' %}">View your posts</a>
+                        <a class="btn btn-outline-light" href={% url 'profile-edit' %}>Edit your profile</a>
                     </div>
                 {% endif %}
             </div>

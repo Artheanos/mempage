@@ -3,17 +3,21 @@
 
     <nav class="site-header sticky-top py-1" style="border-radius: 0 0 10px 10px;">
         <div class="container d-flex flex flex-md-row font-weight-bold">
-            <a class="ml-auto py-2 d-md-inline-block" href="/"><img style="width: 20px; object-position: 0 -2px"
-                                                                    src="/static/icon.ico">MEMPAGE</a>
+            <a class="ml-auto py-2 d-md-inline-block" href={% url 'main-page' %}>
+                <img style="width: 20px; object-position: 0 -2px" src="/static/icon.ico" alt="MEMPAGE">
+                MEMPAGE
+            </a>
         </div>
     </nav>
 
     <div class="container main-container" style="max-width: 400px">
         <form class="mt-4" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-
-            <label>Your email<input placeholder="Email" name="target_email" class="form-control"
-                                    {% if target_email %}value="{{ target_email }}"{% endif %}/></label>
+            <label>
+                Your email
+                <input placeholder="Email" name="target_email" class="form-control"
+                       {% if target_email %}value="{{ target_email }}"{% endif %}/>
+            </label>
 
             <button class="btn btn-primary" type="submit" value="Upload Image" name="submit">Reset</button>
         </form>

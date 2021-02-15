@@ -13,6 +13,7 @@ def login_form(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             user = User.objects.get(username__iexact=form.cleaned_data['username'])
+            print(user.password)
             session_login(request, user)
             previous_page = request.POST.get('previous_page')
             print(previous_page)
@@ -120,9 +121,9 @@ def password_recovery_page(request):
         return render(request, 'password_recovery/first_stage.html')
 
 
-def profile_page(request, profile_id):
+def profile_page(request, pk):
     try:
-        user = User.objects.get(id=profile_id)
+        user = User.objects.get(id=pk)
         stats = {
             'Number of posts': user.post_set.count(),
             'Number of comments': user.comment_set.count()

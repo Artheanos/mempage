@@ -4,13 +4,21 @@ import boto3
 
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import QuerySet
+from django.forms import ModelForm
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic import ListView, View, UpdateView, DeleteView
+from django.views.generic.base import ContextMixin
+from django.views.generic.detail import SingleObjectMixin
+from django.views.generic.list import MultipleObjectMixin
 
 from mempage.settings import IMAGES_DIR
 from userapp.models import User
+from userapp.utils import session_logged_in
 from .forms import UploadFileForm
-from .models import Post, Comment
+from .models import Post, Comment, PostForm
 from .utils import is_image, name_save_file, remove_post
 
 S3 = boto3.client('s3')
@@ -50,34 +58,11 @@ def upload_form(request):
         )
 
 
-def main_page(request):
-    page = request.GET.get('page')
-
-    if page:
-        try:
-            page = int(page)
-            page = max(1, page)
-        except ValueError:
-            return HttpResponseRedirect('/')
-    else:
-        page = 1
-
-    posts_on_page = 50
-    page -= 1
-
-    posts = Post.objects.order_by('-date')[
-            page * posts_on_page:
-            (page + 1) * posts_on_page
-            ]
-
-    return render(request, 'main_page.html', {'posts': posts, 'session': request.session})
-
-
-def post_page(request, post_number):
-    post = Post.objects.get(pk=post_number)
+def post_page(request, pk):
+    post = Post.objects.get(pk=pk)
 
     if request.method == 'POST':
-        if not request.session.get('id'):
+        if not session_logged_in(request):
             return HttpResponseRedirect('/')
 
         if request.POST.get('comment-id'):
@@ -97,28 +82,45 @@ def post_page(request, post_number):
     return render(request, 'post_page.html', {'post': post, 'session': request.session})
 
 
-def post_edit_page(request, post_number):
-    try:
-        post = Post.objects.get(pk=post_number)
-    except ObjectDoesNotExist:
-        raise Http404(f"Post where id={post_number} does not exist")
-
-    if request.method == 'POST':
-        if post.user != User.get_user(request):
-            raise Exception()
-
-        if request.POST.get('action') == 'delete':
-            remove_post(post)
-        else:
-            post.header = request.POST['new-header']
-            post.save()
-
-        return HttpResponseRedirect('/my_posts')
-
-    return render(request, 'post_edit_page.html', {'post': post, 'session': request.session})
+class SessionContext(ContextMixin, View):
+    def get_context_data(self, *, object_list=None, **kwargs):
+        return super().get_context_data(
+            object_list=object_list, **kwargs,
+            session=self.request.session
+        )
 
 
-def my_posts_page(request):
-    posts = Post.objects.filter(user=User.get_user(request))
+class MainView(SessionContext, ListView):
+    model = Post
+    template_name = 'main_page.html'
+    ordering = ['-date']
+    paginate_by = 10
 
-    return render(request, 'my_posts_page.html', {'posts': posts, 'session': request.session})
+    # def get_context_data(self, *, object_list=None, **kwargs):
+    #     queryset: QuerySet = object_list if object_list is not None else self.object_list
+
+
+class MyPostsView(MainView):
+    template_name = 'my_posts_page.html'
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user=User.get_user(self.request))
+
+
+class OwnerOnly(SingleObjectMixin, View):
+    def get_object(self, queryset=None):
+        post = super().get_object(queryset)
+        if post.user.id != self.request.session['id']:
+            raise Http404('You are not the owner')
+        return post
+
+
+class MyPostEditView(SessionContext, OwnerOnly, UpdateView):
+    model = Post
+    form_class = PostForm
+    success_url = '/my_posts'
+
+
+class MyPostDeleteView(SessionContext, OwnerOnly, DeleteView):
+    model = Post
+    success_url = reverse_lazy('main-page')

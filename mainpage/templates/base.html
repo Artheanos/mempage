@@ -5,6 +5,7 @@
     <title>MemPage</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link href="/static/css/main.css" rel="stylesheet">
     <link rel="icon" href="/static/icon.ico">
     <meta charset="utf-8">
@@ -70,17 +71,18 @@
 
         {% block navbar %}
             {% if session.username %}
-                <a class="py-2" href="upload">Upload</a>
-                <a class="py-2 d-md-inline-block" href="/logout">Logout</a>
-                <a class="py-2 d-md-inline-block" href="/profile/{{ session.id }}">{{ session.username }}</a>
+                <a class="py-2" href="{% url 'upload' %}">Upload</a>
+                <a class="py-2 d-md-inline-block" href="{% url 'logout' %}">Logout</a>
+                <a class="py-2 d-md-inline-block" href="{% url 'profile-page' session.id %}">{{ session.username }}</a>
             {% else %}
-                <a class="py-2" href="/login_form">Login</a>
-                <a class="py-2 d-md-inline-block" href="/register_form">Register</a>
+                <a class="py-2" href="{% url 'login' %}">Login</a>
+                <a class="py-2 d-md-inline-block" href="{% url 'register' %}">Register</a>
             {% endif %}
-            <a class="py-2 d-md-inline-block" href="/"><img style="width: 20px; object-position: 0 -2px"
-                                                            src="/static/icon.ico">MEMPAGE</a>
+            <a class="py-2 d-md-inline-block" href="{% url 'main-page' %}">
+                <img style="width: 20px; object-position: 0 -2px" src="/static/icon.ico" alt="MEMPAGE">
+                MEMPAGE
+            </a>
         {% endblock %}
-
     </div>
 </nav>
 

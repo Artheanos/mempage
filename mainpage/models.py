@@ -1,4 +1,7 @@
+from urllib.parse import quote
+
 from django.db import models
+from django.forms import ModelForm, TextInput
 from django.utils import timezone
 
 from userapp.models import User
@@ -25,6 +28,18 @@ class Post(models.Model):
 
     def __str__(self):
         return f'Post "{self.header, self.image, self.date.ctime()}"'
+
+    def image_url(self):
+        return 'https://mempagebucket.s3.eu-central-1.amazonaws.com/media/' + quote(self.image)
+
+
+class PostForm(ModelForm):
+    class Meta:
+        model = Post
+        fields = ('header',)
+        widgets = {
+            'header': TextInput(attrs={'class': 'form-control'})
+        }
 
 
 class Comment(models.Model):
